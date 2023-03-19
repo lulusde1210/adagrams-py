@@ -97,6 +97,22 @@ def score_word(word):
 
 
 def get_highest_word_score(word_list):
-    pass
+    scores = {}
+    for word in word_list:
+        scores[word] = score_word(word)
+    highest_score = max(scores.values())
+    
+    highest_score_words = []
+    for word, score in scores.items():
+        if score == highest_score:
+            highest_score_words.append(word)
+    
+    for target_word in highest_score_words:
+        if len(target_word) == 10:
+            return (target_word, highest_score)
+    return (min(highest_score_words, key =len),highest_score)
+
+
+
 
 
