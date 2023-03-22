@@ -52,33 +52,18 @@ def draw_letters():
         letter = letter_list.pop(random.randrange(len(letter_list)))
         letter_bank.append(letter)
     return letter_bank
-
-
-def uses_available_letters(word, letter_bank): 
-    # create two empty dictionaries, in order to convert both the word and letter_bank into dictionaries.
-    letter_bank_dict = {}
-    word_dict ={}
-    # convert letter_bank(list) into a dictionary
+ 
+def uses_available_letters(word, letter_bank):
+    letter_bank_copy = []
     for letter in letter_bank:
-        if letter in letter_bank_dict:
-            letter_bank_dict[letter] += 1
+        letter_bank_copy.append(letter)
+
+    for letter in word.upper():
+        if letter in letter_bank_copy:
+            letter_bank_copy.remove(letter)
         else:
-            letter_bank_dict[letter] = 1
-    
-    # convert word(string) into a dictionary
-    for char in word.upper():
-        if char in word_dict:
-            word_dict[char] += 1
-        else:
-            word_dict[char] = 1
-    
-    # check if every letter in the word is also in the letter_bank dictionary and of right quantity. 
-    for word_letter in word_dict:
-        if word_letter not in letter_bank_dict or word_dict[word_letter] > letter_bank_dict[word_letter]:
             return False
     return True
-
-
 
 def score_word(word):
     # if word is empty string, return 0
