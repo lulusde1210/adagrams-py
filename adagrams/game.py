@@ -1,6 +1,20 @@
 import random
 
-LETTER_POOL = {
+
+
+LETTER_SCORE_CHART = {
+    1: ["A", "E", "I", "O", "U", "L", "N", "R", "S", "T"],
+    2: ["D","G"],
+    3: ["B","C","M","P"],
+    4: ["F","H","V","W","Y"],
+    5: ["K"],
+    8: ["J","X"],
+    10:["Q","Z"]
+}
+
+
+def draw_letters():
+    LETTER_POOL = {
     'A': 9, 
     'B': 2, 
     'C': 2, 
@@ -28,28 +42,16 @@ LETTER_POOL = {
     'Y': 2, 
     'Z': 1
 }
-
-LETTER_SCORE_CHART = {
-    1: ["A", "E", "I", "O", "U", "L", "N", "R", "S", "T"],
-    2: ["D","G"],
-    3: ["B","C","M","P"],
-    4: ["F","H","V","W","Y"],
-    5: ["K"],
-    8: ["J","X"],
-    10:["Q","Z"]
-}
-
-
-def draw_letters():
     # convert the LETTER_POOL into a letter_list which contains all the available letters
     letter_list = []
     for (letter, letter_freq) in LETTER_POOL.items():
-        letter_list += [letter] * letter_freq
+        letter_list += letter * letter_freq
     
     # * pop one random letter from the letter_list and append it to the newly created list(letters), repeat for 10 times.
     letter_bank =[]
-    for i in range(10):
-        letter = letter_list.pop(random.randrange(len(letter_list)))
+    for _ in range(10):
+        random_index = random.randrange(len(letter_list))
+        letter = letter_list.pop(random_index)
         letter_bank.append(letter)
     return letter_bank
 
