@@ -57,26 +57,18 @@ def draw_letters():
 
 
 def uses_available_letters(word, letter_bank): 
-    # create two empty dictionaries, in order to convert both the word and letter_bank into dictionaries.
     letter_bank_dict = {}
-    word_dict ={}
-    # convert letter_bank(list) into a dictionary
     for letter in letter_bank:
-        if letter in letter_bank_dict:
-            letter_bank_dict[letter] += 1
-        else:
-            letter_bank_dict[letter] = 1
-    
-    # convert word(string) into a dictionary
+        letter_bank_dict[letter] = letter_bank_dict.get(letter,0) +1
+
+    word_dict ={}
     for char in word.upper():
-        if char in word_dict:
-            word_dict[char] += 1
-        else:
-            word_dict[char] = 1
+        word_dict[char] = word_dict.get(char,0) + 1
     
-    # check if every letter in the word is also in the letter_bank dictionary and of right quantity. 
-    for word_letter in word_dict:
-        if word_letter not in letter_bank_dict or word_dict[word_letter] > letter_bank_dict[word_letter]:
+    for letter in word_dict:
+        word_letter_count = word_dict[letter]
+        bank_letter_count = letter_bank_dict[letter] if letter in letter_bank_dict else 0
+        if word_letter_count > bank_letter_count:
             return False
     return True
 
