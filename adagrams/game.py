@@ -1,18 +1,5 @@
 import random
 
-
-
-LETTER_SCORE_CHART = {
-    1: ["A", "E", "I", "O", "U", "L", "N", "R", "S", "T"],
-    2: ["D","G"],
-    3: ["B","C","M","P"],
-    4: ["F","H","V","W","Y"],
-    5: ["K"],
-    8: ["J","X"],
-    10:["Q","Z"]
-}
-
-
 def draw_letters():
     LETTER_POOL = {
     'A': 9, 
@@ -42,19 +29,16 @@ def draw_letters():
     'Y': 2, 
     'Z': 1
 }
-    # convert the LETTER_POOL into a letter_list which contains all the available letters
     letter_list = []
     for (letter, letter_freq) in LETTER_POOL.items():
         letter_list += letter * letter_freq
     
-    # * pop one random letter from the letter_list and append it to the newly created list(letters), repeat for 10 times.
     letter_bank =[]
     for _ in range(10):
         random_index = random.randrange(len(letter_list))
         letter = letter_list.pop(random_index)
         letter_bank.append(letter)
     return letter_bank
-
 
 def uses_available_letters(word, letter_bank): 
     letter_bank_dict = {}
@@ -72,48 +56,46 @@ def uses_available_letters(word, letter_bank):
             return False
     return True
 
-
-
 def score_word(word):
-    # if word is empty string, return 0
+    LETTER_SCORE_CHART = {
+    1: ("A", "E", "I", "O", "U", "L", "N", "R", "S", "T"),
+    2: ("D", "G"),
+    3: ("B", "C", "M", "P"),
+    4: ("F", "H", "V", "W", "Y"),
+    5: ("K"),
+    8: ("J", "X"),
+    10:("Q", "Z")
+    }
     if word == "":
         return 0
     
-    # caculate the score according to the LETTER_SCORE_CHART
     total_score = 0
     for letter in word.upper():
         for (score, letters) in LETTER_SCORE_CHART.items():
             if letter in letters:
                 total_score += score
-    # add 8 more points if the length of word is more than 7
+                break
+
     if len(word) >= 7:
         total_score += 8
         
     return total_score
 
-
 def get_highest_word_score(word_list):
-    # create a dictionary(scores) in which the key is the word, value is its score. 
-    # find out the highest score of all the scores by using max()
-    scores = {}
+    highest_score = 0
+    winner_list =[]
     for word in word_list:
-        scores[word] = score_word(word)
-    highest_score = max(scores.values())
-    
-    # find out all the words whose scores are the same as the highest score, and put them in a list.
-    highest_score_words = []
-    for word, score in scores.items():
-        if score == highest_score:
-            highest_score_words.append(word)
+        score = score_word(word)
+        if score > highest_score:
+            highest_score = score
+            winner_list = [word]
+        elif score == highest_score:
+            winner_list.append(word)
 
-    #check the length of all the highes score words and return the correct one
-    for target_word in highest_score_words:
-    #loop through all the words, any word that has a length of 10 will be the highest score word, or the first length-10 one if there are multiple
-        if len(target_word) == 10:   
-            return (target_word, highest_score)
-    # if none of the words has a length of 10, the one of shorest length is the highest score word.
-    # I googled the following way to find the shortest word of a list. 
-    return (min(highest_score_words, key =len),highest_score)
+    for winner in winner_list:
+        if len(winner) == 10:   
+            return (winner, highest_score)
+    return (min(winner_list, key =len),highest_score)
 
 
 
